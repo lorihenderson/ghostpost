@@ -8,10 +8,14 @@
 <div style="background-color: lightskyblue; border-width: 3px; border-color: black; border-style: groove;  padding-left: 5px">
 {% for posts in boast %} {% if posts.choices %}
         <h2 style="color:darkblue; font-style: oblique">Boast</h2>
+
         <p style="font-size: larger; color:darkgreen; font-style: oblique">{{ posts.user_input }}</p>
         <p style="color:darkgreen; font-style: oblique;">{{ posts.votes }}</p>
 
-        <a href="/upvote/{{posts.id}}">UPVOTE</a> <a href="/downvote/{{posts.id}}">DOWNVOTE</a>
+        <a href="/upvote/{{posts.id}}/">&#9650</a>
+        <br>
+        <a href="/downvote/{{posts.id}}/">&#9660</a>
+
         <p style="color:darkgreen; font-style: oblique">{{ posts.time_posted }}</p>
         <hr style="height: 3px; background-color: black; width: auto">
 {% endif %}
