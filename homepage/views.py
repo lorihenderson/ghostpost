@@ -2,51 +2,45 @@ from django.shortcuts import render, HttpResponseRedirect, reverse
 from homepage import models
 from homepage.forms import PostForm
 from homepage.models import BoastRoast
+from homepage.serializers import BoastRoastSerializer
+
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
-def index(request):
-    ghostposts = models.BoastRoast.objects.all().order_by("-time_posted")
-    return render(request, "index.html", {"ghostposts":ghostposts})
+class CreatePostViewSet(viewsets.ModelViewSet):
+    queryset = BoastRoast.objects.all()
+    serializer_class = BoastRoastSerializer
 
+    @action(detail=False, methods=["post"])
+    def all_boasts(self, request):
+        boasts = BoastRoast.objects.filter(choices=True).order_by("-time_posted")
+        serializer = self.get_serializer(boasts, many=True)
+        return Response(serializer.data)
 
-def create_post_view(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            models.BoastRoast.objects.create(
-                choices = data.get("choices"),
-                user_input = data.get("user_input")
-            )
-            return HttpResponseRedirect(reverse("homepage"))
-    form = PostForm()
-    return render(request, "createpost.html", {"form": form})
+    @action(detail=False, methods=["post"])
+    def all_roasts(self, request):
+        roasts = BoastRoast.objects.filter(choices=False).order_by("-time_posted")
+        serializer = self.get_serializer(roasts, many=True)
+        return Response(serializer.data)
 
+    @action(detail=True, methods=["post"])
+    def all_upvotes(self, request, pk=None):
+        post = self.get_object()
+        post.upvotes += 1
+        post.save()
+        return Response({"status": post.upvotes})
 
-def boast_view(request):
-    boast = BoastRoast.objects.filter(choices=True).order_by("-time_posted")
-    return render(request, "boasts.html", {"boast": boast})
+    @action(detail=True, methods=["post"])
+    def all_downvotes(self, request, pk=None):
+        post = self.get_object()
+        post.downvotes += 1
+        post.save()
+        return Response({"status": post.downvotes})
 
-
-def roast_view(request):
-    roast = BoastRoast.objects.filter(choices=False).order_by("-time_posted")
-    return render(request, "roasts.html", {"roast": roast})
-
-
-def upvote_view(request, upvote_id):
-    post = BoastRoast.objects.filter(id=upvote_id).first()
-    post.upvotes += 1
-    post.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-def downvote_view(request, downvote_id):
-    post = BoastRoast.objects.filter(id=downvote_id).first()
-    post.downvotes += 1
-    post.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-def sort_by_votes(request):
-    sorted_votes = sorted(BoastRoast.objects.all(), key=lambda x: x.votes, reverse=True)
-    return render(request, "sortbyvotes.html", {"sorted_votes": sorted_votes})
+    @action(detail=False)
+    def total_votes(self, request):
+        sorted_votes = sorted(BoastRoast.objects.all(), key=lambda x: x.votes, reverse=True)
+        serializer = self.get_serializer(sorted_votes, many=True)
+        return Response(serializer.data)

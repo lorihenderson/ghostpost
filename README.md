@@ -1,3 +1,10 @@
+# Implementation of viewsets, serializers and ReST APIs
+## Worked with Mavrick Watts
+## Help from Matthew Perry
+
+
+
+# =========================================================================================
 ## Worked with Mavrick Watts, Triston Reeves, Jessica Woods, Edwin Torres, and Ruben Espino
 
 ## Peter helped me figure out the votes
