@@ -8,7 +8,6 @@ class BoastRoastSerializer(serializers.ModelSerializer):
         model = BoastRoast
         fields = [
             "id",
-            "boast_roast",
             "choices",
             "user_input",
             "upvotes",

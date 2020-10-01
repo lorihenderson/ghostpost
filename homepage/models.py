@@ -11,4 +11,4 @@ class BoastRoast(models.Model):
 
     @property
     def votes(self):
-        return self.upvotes - self.downvotes
+        return self.upvotes + self.downvotes
