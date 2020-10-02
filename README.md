@@ -1,3 +1,9 @@
+# Implementation of viewsets, serializers and ReST APIs
+## Worked with Mavrick Watts
+## Help from Matthew Perry
+
+
+# =========================================================================================
 ## Worked with Mavrick Watts, Triston Reeves, Jessica Woods, Edwin Torres, and Ruben Espino
 
 ## Peter helped me figure out the votes
@@ -8,3 +14,6 @@ https://stackoverflow.com/questions/8478494/ordering-django-queryset-by-a-proper
 
 ## Chris Escobedo's helpful tip on Http Redirect
 ## return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+## Link to frontend repo
+https://github.com/lorihenderson/ghostpost_frontend
