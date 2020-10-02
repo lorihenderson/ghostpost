@@ -14,3 +14,6 @@ https://stackoverflow.com/questions/8478494/ordering-django-queryset-by-a-proper
 
 ## Chris Escobedo's helpful tip on Http Redirect
 ## return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+## Link to frontend repo
+https://github.com/lorihenderson/ghostpost_frontend
